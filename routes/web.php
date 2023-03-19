@@ -42,8 +42,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin/login', function () {
         return view('admin/dashboard');
     })->name('sign-up');
-    Route::get('admin/attributes', [EavAttributeController::class, 'AttributeIndex']);
-    Route::get('admin/attribute/add', [EavAttributeController::class, 'AttributeIndex']);
+    Route::get('admin/attributes', [EavAttributeController::class, 'index']);
+    Route::get('admin/attribute/add', [EavAttributeController::class, 'create']);
+    Route::get('admin/attribute_set', [\App\Http\Controllers\AttributeSetController::class, 'index']);
 });
 
 Route::group(['middleware' => 'guest'], function () {
