@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('attribute_sets', function (Blueprint $table) {
+        Schema::create('attribute_set_attributes', function (Blueprint $table) {
             $table->id();
-            $table->string('attribute_set_name')->unique();
+            $table->string('attribute_set_name');
+            $table->string('attribute_code');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attribute_sets');
+        Schema::dropIfExists('attribute_set_attributes');
     }
 };

@@ -120,7 +120,7 @@
             <div class="container-fluid py-4">
                 <div class="card">
                     <div class="card-header pb-0 px-3">
-                        <h6 class="mb-0">{{ __('Attribute Properties') }}</h6>
+                        <h6 class="mb-0">{{ __('Attribute set') }}</h6>
                     </div>
                     <div class="card-body pt-4 p-3">
                         @csrf
@@ -145,155 +145,80 @@
                         @endif
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="user-name" class="form-control-label">{{ __('Name') }}</label>
+                                <label for="user.phone"
+                                       class="form-control-label">{{ __('Attribute set Name') }}</label>
                                 <div class="border rounded-3">
-                                    @if(isset($attribute))
-                                        <input class="form-control" value="{{$attribute->name}}" type="text" placeholder="name"
-                                               id="attribute-label" name="name">
-                                        <input class="form-control" value="{{$attribute->id}}" type="hidden"
-                                               id="attribute-label" name="id">
+                                    @if(isset($set))
+                                    <input class="form-control" type="hidden" name="id"
+                                           value="{{$set->id}}">
+                                        <input class="form-control" type="text" id="attribute-set" name="attribute_set_name"
+                                               value="{{$label}}">
                                     @else
-                                        <input class="form-control" value="" type="text" placeholder="name"
-                                               id="attribute-label" name="name">
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-control-label">{{ __('Attribute code') }}</label>
-                                <div class="border rounded-3">
-                                    @if(isset($attribute))
-                                        <input class="form-control" type="text" id="attribute-code" readonly name="attribute_code"
-                                               value="{{$attribute->attribute_code}}">
-                                    @else
-                                        <input class="form-control" type="text" id="attribute-code" name="attribute_code"
+                                        <input class="form-control" type="text" id="attribute-set" name="attribute_set_name"
                                                value="">
                                     @endif
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-check form-switch">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Use in layer navigation</label>
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="">
-                        </div>
-
-                        <div class="form-check form-switch">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Use to sort</label>
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="user-email" class="form-control-label">{{ __('Input Type') }}</label>
-                                <div class="border rounded-3">
-                                    <select class="form-control" id="input-type" name="type">
-                                        <option value="0" @if($type == 0) selected @endif>Text</option>
-                                        <option value="1" @if($type == 1) selected @endif>Text Swatch</option>
-                                        <option value="2" @if($type == 2) selected @endif>Color Swatch</option>
-                                        <option value="3" @if($type == 3) selected @endif>Checkbox</option>
-                                    </select>
+                            <div class="row">
+                                <div class="list-attr">
+                                    <table class="table align-items-center mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ __('Attribute code') }}</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Attribute name') }}</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Action') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($attributes as $attribute)
+                                            <tr>
+                                                <td>
+                                                    <p class="text-xs font-weight-bold mb-0">{{$attribute->attribute_code}}</p>
+                                                </td>
+                                                <td class="align-middle text-center text-sm">
+                                                    <p class="text-xs font-weight-bold mb-0">{{$attribute->name}}</p>
+                                                </td>
+                                                @if(!$attribute->is_added)
+                                                    <td class="align-middle cursor-pointer text-center text-sm add-attribute-set">
+                                                        <input type="hidden" class="is_added"
+                                                               name="atb[{{$attribute->attribute_code}}]" value="0">
+                                                        <a class="text-secondary label font-weight-bold text-xs"
+                                                           data-toggle="tooltip">Add</a>
+                                                    </td>
+                                                @else
+                                                    <td class="align-middle cursor-pointer text-center text-sm add-attribute-set added">
+                                                        <input type="hidden" class="is_added"
+                                                               name="atb[{{$attribute->attribute_code}}]" value="0">
+                                                        <a class="text-secondary label font-weight-bold text-xs"
+                                                           data-toggle="tooltip">Delete</a>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="card-header pb-0 px-3 attribute-values">
-                        <h6 class="mb-0">{{ __('Attribute Values') }}</h6>
-                    </div>
-                    <div class="card-body pt-4 p-3 attribute-values">
-                        <div class="card-body px-0 pt-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Value') }}</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ __('Swatch') }}</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ __('Action') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="tbody attribute-value">
-                                    @foreach($options as $key => $option)
-                                    <tr id="delete_{{$key}}">
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <input type="text" class="input-value" value="{{$option->value}}" name="values[{{$key}}]">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <input type="text" value="{{$option->swatch}}" name="swatches[{{$key}}]">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <button type="button" class="btn btn-secondary">Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div>
-                                <button type="button" class="btn bg-gradient-info add-option">Add option</button>
-                            </div>
+                        <div class="d-flex justify-content-end" style="margin-right: 100px">
+                            <button type="submit" class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ 'Save' }}</button>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-end" style="margin-right: 100px">
-                        <button type="submit" class="btn bg-gradient-dark btn-md mt-4 mb-4">{{ 'Save' }}</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
     <script>
-        let clickCount = {{count($options)}};
-        console.log(clickCount);
-        if ($('#input-type').val() == 0) {
-            $('.attribute-values').hide();
-        }
-        function getHtml(number) {
-            var type = $('#input-type').val();
-            var inputType = 'text'
-            if (type == 2) {
-                inputType = 'color';
-            }
-            return '<tr id="deleted_'+number+'"><td>' +
-                '<div class="d-flex px-2 py-1">' +
-                '<input class="input-value" type="'+inputType+'" value="" name="values['+number+']">' +
-                '</div> </td>' +
-                '<td>' +
-                '<div class="d-flex px-2 py-1">' +
-                '<input type="text" value="" name="swatches['+number+']">' +
-                '</div> </td>' +
-                '<td>' +
-                '<div class="d-flex px-2 py-1">' +
-                '<button type="button" class="btn btn-secondary delete-option" data-del="deleted_'+number+'">Delete</button>' +
-                '</div> </td></tr>';
-        }
-        $('#input-type').change(function () {
-            if (this.value == 0) {
-                $('.attribute-values').hide();
+        $('.add-attribute-set').click(function () {
+            if ($(this).hasClass('added')) {
+                $(this).removeClass('added');
+                $(this).find('.label').text('Add');
+                $(this).find(".is_added").val(0);
             } else {
-                $('.attribute-values').show();
-                if (this.value == 2) {
-                    $('.attribute-value').find('.input-value').each(function (element) {
-                        this.type = 'color';
-                    });
-                } else {
-                    $('.attribute-value').find('.input-value').each(function (element) {
-                        this.type = 'text';
-                    });
-                }
+                $(this).addClass('added');
+                $(this).find('.label').text('Delete');
+                $(this).find(".is_added").val(1);
             }
-        })
-        $('.add-option').click(function () {
-            $('.attribute-value').append(getHtml(clickCount));
-            clickCount ++;
-        })
-        $('.attribute-value').on('click', '.delete-option', function () {
-            var idToDel = $(this).data('del');
-            $('#'+idToDel).remove();
-        })
+        });
     </script>
 @endsection

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AttributeSetController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\EavAttributeController;
 use App\Http\Controllers\HomeController;
@@ -44,7 +46,19 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('sign-up');
     Route::get('admin/attributes', [EavAttributeController::class, 'index']);
     Route::get('admin/attribute/add', [EavAttributeController::class, 'create']);
-    Route::get('admin/attribute_set', [\App\Http\Controllers\AttributeSetController::class, 'index']);
+    Route::get('admin/attribute_set', [AttributeSetController::class, 'index']);
+    Route::get('admin/attribute_set/add', [AttributeSetController::class, 'create']);
+    Route::post('admin/attribute_set/save', [AttributeSetController::class, 'store']);
+    Route::post('admin/attribute_set/update', [AttributeSetController::class, 'update']);
+    Route::get('admin/attribute_set/edit/{id}', [AttributeSetController::class, 'edit']);
+    Route::post('admin/attribute/save', [EavAttributeController::class, 'store']);
+    Route::get('admin/attribute/edit/{id}', [EavAttributeController::class, 'edit']);
+    Route::post('admin/attribute/update', [EavAttributeController::class, 'update']);
+
+    Route::get('admin/category', [CategoryController::class, 'index']);
+    Route::get('admin/category/add/{id}', [CategoryController::class, 'addSubCategory']);
+    Route::get('admin/category/edit/{id}', [CategoryController::class, 'edit']);
+    Route::post('admin/category/save', [CategoryController::class, 'store']);
 });
 
 Route::group(['middleware' => 'guest'], function () {

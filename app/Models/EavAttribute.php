@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class EavAttribute extends Model
 {
+    protected $fillable = [
+        'name',
+        'attribute_code',
+        'type'
+    ];
     use HasFactory;
 }
