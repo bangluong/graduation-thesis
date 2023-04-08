@@ -17,8 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('sku')->unique();
-            $table->string('type_id');
-            $table->integer('attribute_set_id');
+            $table->string('type_id')->default('simple');
+            $table->integer('attribute_set_id')->default('0');
+            $table->integer('price');
+            $table->integer('qty');
+            $table->string('description')->nullable(true);
             $table->timestamps();
         });
     }

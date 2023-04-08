@@ -110,14 +110,16 @@ class EavAttributeController extends Controller
         AttributeValue::deleteByAttribute($request->get('attribute_code'));
         $values = $request->get('values');
         $swatches = $request->get('swatches');
-        foreach ($values as $index => $value) {
-            if ($value) {
-                $data = [
-                    'attribute_code' => $request->get('attribute_code'),
-                    'value' => $value,
-                    'swatch' => $swatches[$index]
-                ];
-                AttributeValue::create($data);
+        if (count($values)) {
+            foreach ($values as $index => $value) {
+                if ($value) {
+                    $data = [
+                        'attribute_code' => $request->get('attribute_code'),
+                        'value' => $value,
+                        'swatch' => $swatches[$index]
+                    ];
+                    AttributeValue::create($data);
+                }
             }
         }
         return redirect('admin/attribute/edit/'.$id);

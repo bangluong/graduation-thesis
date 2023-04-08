@@ -1089,7 +1089,7 @@
                 "illuminate/conditionable": "self.version",
                 "illuminate/config": "self.version",
                 "illuminate/console": "self.version",
-                "illuminate/container": "self.version",
+                "illuminate/container": "7.0",
                 "illuminate/contracts": "self.version",
                 "illuminate/cookie": "self.version",
                 "illuminate/database": "self.version",
