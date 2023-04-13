@@ -1,93 +1,97 @@
 @include('frontend.layouts.header')
-@include('frontend.layouts.topbar')
-@include('frontend.layouts.navbar')
-@include('frontend.layouts.navbarend')
-
-<!-- Shop Start -->
-<div class="container-fluid pt-5">
-    <div class="row px-xl-5">
-        <!-- Shop Sidebar Start -->
-        @include('frontend.layouts.list-product-sidebar')
-        <!-- Shop Sidebar End -->
-
-
-        <!-- Shop Product Start -->
-        <div class="col-lg-9 col-md-12">
-            <div class="row pb-3">
-                <div class="col-12 pb-1">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <form action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search by name">
-                                <div class="input-group-append">
-                                        <span class="input-group-text bg-transparent text-primary">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="dropdown ml-4">
-                            <button class="btn border dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                Sort by
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                                <a class="dropdown-item" href="#">Latest</a>
-                                <a class="dropdown-item" href="#">Popularity</a>
-                                <a class="dropdown-item" href="#">Best Rating</a>
-                            </div>
+<!-- inner page banner -->
+<div id="inner_banner" class="section inner_banner_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="full">
+                    <div class="title-holder">
+                        <div class="title-holder-cell text-left">
+                            <h1 class="page-title">Shop Page</h1>
+                            <ol class="breadcrumb">
+                                <li><a href="index.html">Home</a></li>
+                                <li class="active">Shop</li>
+                            </ol>
                         </div>
                     </div>
-                </div>
-                @foreach($products as $product)
-                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-                        <div class="card product-item border-0 mb-4">
-                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="{{$product->img}}" alt="">
-                            </div>
-                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                <h6 class="text-truncate mb-3">{{$product->name}}</h6>
-                                <div class="d-flex justify-content-center">
-                                    <h6>{{$product->price}}</h6>
-                                    @if((isset($product->sales_price) && $product->sales_price != 0))
-                                        <h6 class="text-muted ml-2">
-                                            <del>{{$product->sales_price}}đ</del>
-                                        </h6>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="card-footer d-flex justify-content-between bg-light border">
-                                <a href="{{url('product/'.$product->sku)}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Xem Sản Phẩm</a>
-                                <a href="{{url('product/add-to-cart/'.$product->id)}}" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-                <div class="col-12 pb-1">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center mb-3">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
-        <!-- Shop Product End -->
     </div>
 </div>
-<!-- Shop End -->
+<!-- end inner page banner -->
+
+<!-- Shop Start -->
+
+<!-- section -->
+<div class="section padding_layout_1 product_list_main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="side_bar">
+                    <div class="side_bar_blog">
+                        <h4>Tìm Kiếm</h4>
+                        <div class="side_bar_search">
+                            <form action="{{url('/search')}}" method="GET">
+                                @csrf
+                                <div class="input-group stylish-input-group">
+                                    <input class="form-control" placeholder="Nhập Từ Khóa" name="q" type="text">
+                                    <span class="input-group-addon">
+                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </span> </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="side_bar_blog">
+                        <h4>Category</h4>
+                        <div class="categary">
+                            <ul>
+                                @foreach($cates as $cate)
+                                <li class="mb-1" ><a href="{{url('category/'.$cate->id)}}">{{$cate->title}}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    @foreach($products as $product)
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 margin_bottom_30_all">
+                            <a href="{{url('product/'.$product->sku)}}">
+                                <div class="product_list">
+                                    <div class="product_img"> <img class="img-responsive" src="{{$product->img}}" alt=""> </div>
+                                    <div class="product_detail_btm">
+                                        <div class="center">
+                                            <h4><a href="{{url('product/'.$product->sku)}}">{{$product->name}}</a></h4>
+                                        </div>
+                                        <div class="starratin">
+                                            <div class="center"> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true">
+                                                </i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star" aria-hidden="true"></i> <i class="fa fa-star-o" aria-hidden="true"></i> </div>
+                                        </div>
+                                        <div class="product_price">
+                                            @if($product->sale_price)
+                                                <p><span class="old_price">{{$product->price}}</span> – <span class="new_price">{{$product->sale_price}}</span></p>
+                                            @else
+                                                <p><span class="new_price">{{$product->price}}</span></p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    @endforeach
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @foreach($pages as $page)
+                            <li class="page-item {{$page['class']}}"><a class="page-link" href="{{$page['url']}}">{{$page['label']}}</a></li>
+                        @endforeach
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div><!-- Shop End -->
 @include('frontend.layouts.footer')

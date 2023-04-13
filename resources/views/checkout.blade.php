@@ -1,11 +1,28 @@
 @include('frontend.layouts.header')
-@include('frontend.layouts.topbar')
-@include('frontend.layouts.navbar')
-@include('frontend.layouts.navbarend')
-
+<!-- inner page banner -->
+<div id="inner_banner" class="section inner_banner_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="full">
+                    <div class="title-holder">
+                        <div class="title-holder-cell text-left">
+                            <h1 class="page-title">Thanh Toán</h1>
+                            <ol class="breadcrumb">
+                                <li><a href="{{url('/')}}">Trang chủ</a></li>
+                                <li class="active">Thanh Toán</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end inner page banner -->
 <!-- Checkout Start -->
 <div class="container-fluid pt-5">
-    <form method="post" action="{{url('place-order')}}" class="row px-xl-5 needs-validation">
+    <form method="post" action="{{url('place-order')}}" class="row px-xl-5 needs-validation" novalidate>
         @csrf
         <div class="col-lg-8">
             <div class="mb-4">
@@ -13,38 +30,50 @@
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label>Họ Và Tên</label>
-                        <input class="form-control required" name="name" type="text" placeholder="">
+                        <input class="form-control required" name="name" type="text" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Trường Này Không được Để trống
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label>E-mail</label>
-                        <input class="form-control" name="email" type="text" placeholder="example@email.com">
+                        <input class="form-control" name="email" type="text" placeholder="example@email.com" required>
+                        <div class="invalid-feedback">
+                            Trường Này Không được Để trống
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label>Số Điên Thoai</label>
-                        <input class="form-control" name="phone" type="text" placeholder="+123 456 789">
+                        <input class="form-control" name="phone" type="text" placeholder="+123 456 789" required>
+                        <div class="invalid-feedback">
+                            Trường Này Không được Để trống
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label>Địa Chỉ</label>
-                        <input class="form-control" name="address[address]" type="text" placeholder="123 Street">
+                        <input class="form-control" name="address[address]" type="text" placeholder="123 Street" required>
+                        <div class="invalid-feedback">
+                            Trường Này Không được Để trống
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label>Thành Phố</label>
-                        <input class="form-control" name="address[city]" type="text" placeholder="Hà Nội">
+                        <input class="form-control" name="address[city]" type="text" placeholder="Hà Nội" required>
+                        <div class="invalid-feedback">
+                            Trường Này Không được Để trống
+                        </div>
                     </div>
                     <div class="col-md-6 form-group">
                         <label>Quận/Huyện</label>
-                        <input class="form-control" name="address[district]" type="text" placeholder="Quận Cầu giấy">
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="newaccount">
-                            <label class="custom-control-label" for="newaccount">Create an account</label>
+                        <input class="form-control" name="address[district]" type="text" placeholder="Quận Cầu giấy" required>
+                        <div class="invalid-feedback">
+                            Trường Này Không được Để trống
                         </div>
                     </div>
                     <div class="col-md-12 form-group">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="shipto">
-                            <label class="custom-control-label" for="shipto"  data-toggle="collapse" data-target="#shipping-address">Ship to different address</label>
+                            <input type="checkbox" class="custom-control-input" id="newaccount">
+                            <label class="custom-control-label" for="newaccount">Tạo Tài Khoản</label>
                         </div>
                     </div>
                 </div>
@@ -52,7 +81,7 @@
         </div>
         <div class="col-lg-4">
             <div class="card border-secondary mb-5">
-                <div class="card-header bg-secondary border-0">
+                <div class="card-header bg-secondary border-0 btn_main">
                     <h4 class="font-weight-semi-bold m-0">Tổng Đơn Hàng</h4>
                 </div>
                 <div class="card-body">
@@ -82,7 +111,7 @@
                 </div>
             </div>
             <div class="card border-secondary mb-5">
-                <div class="card-header bg-secondary border-0">
+                <div class="card-header bg-secondary border-0 btn_main">
                     <h4 class="font-weight-semi-bold m-0">Phương Thức Thanh Toán</h4>
                 </div>
                 <div class="card-body">
@@ -100,7 +129,7 @@
                     </div>
                 </div>
                 <div class="card-footer border-secondary bg-transparent">
-                    <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
+                    <button type="submit" class="bt_main">Mua Hàng</button>
                 </div>
             </div>
         </div>

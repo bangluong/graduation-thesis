@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('attribute_set_id')->default('0');
             $table->integer('price');
             $table->integer('qty');
-            $table->string('description')->nullable(true);
+            $table->text('description')->nullable(true);
             $table->timestamps();
         });
     }

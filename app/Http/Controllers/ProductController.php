@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Acl;
 use App\Models\Category;
 use App\Models\CategoryProducts;
 use App\Models\File;
@@ -18,6 +19,7 @@ use App\Models\EavAttribute;
 use App\Models\AttributeValue;
 use App\Models\ProductAttributeValue;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -28,6 +30,16 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $products = Product::all();
         return view('admin.product.index')->with(
             [
@@ -69,6 +81,16 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $sets = AttributeSet::all();
         $this->getCategories();
         foreach ($sets as &$set) {
@@ -172,6 +194,16 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $product = Product::find($id);
         $set = AttributeSet::find($product->attribute_set_id);
         $imgs = File::query()->where('entity_id', '=', $id)->get();

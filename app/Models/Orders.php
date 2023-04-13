@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orders extends Model
 {
+    const ORDER_STATUS = [
+        0 => 'pending',
+        1 => 'processing',
+        2 => 'shipping',
+        3 => 'complete'
+    ];
     use HasFactory;
     protected $fillable = [
         'customer_id',
@@ -14,6 +20,7 @@ class Orders extends Model
         'item_count',
         'subtotal',
         'status',
-        'shipping_address_id'
+        'shipping_address_id',
+        'payment_method'
     ];
 }

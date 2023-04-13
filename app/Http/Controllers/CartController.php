@@ -21,6 +21,12 @@ class CartController extends Controller
     public function index()
     {
         $cart = Cart::find(session()->get('cart_id'));
+        if (!$cart) {
+            return view('cart')->with([
+                'cart_items' => [],
+                'cart'=> $cart
+            ]);
+        }
         $cartItems = CartItem::query()->where('cart_id', '=', $cart->id)->get();
         foreach ($cartItems as &$cartItem) {
             $product = Product::find($cartItem->product_id);
@@ -45,6 +51,12 @@ class CartController extends Controller
     public function checkout()
     {
         $cart = Cart::find(session()->get('cart_id'));
+        if (!$cart) {
+            return view('checkout')->with([
+                'cart_items' => [],
+                'cart'=> $cart
+            ]);
+        }
         $cartItems = CartItem::query()->where('cart_id', '=', $cart->id)->get();
         foreach ($cartItems as &$cartItem) {
             $product = Product::find($cartItem->product_id);

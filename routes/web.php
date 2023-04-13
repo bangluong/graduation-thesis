@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EavAttributeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
@@ -71,6 +72,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/products', [ProductController::class, 'index']);
     Route::post('admin/product/update', [ProductController::class, 'update']);
     Route::post('admin/product/save', [ProductController::class, 'store']);
+    Route::get('admin/acl', [\App\Http\Controllers\AclController::class, 'index']);
+    Route::get('admin/acl/add', [\App\Http\Controllers\AclController::class, 'create']);
+    Route::post('admin/acl/save', [\App\Http\Controllers\AclController::class, 'store']);
+    Route::post('admin/acl/update', [\App\Http\Controllers\AclController::class, 'update']);
+    Route::get('admin/acl/edit/{id}', [\App\Http\Controllers\AclController::class, 'edit']);
 });
 Route::get('/product/{sku}', [ProductController::class, 'show']);
 Route::post('checkout/cart/add', [CartController::class, 'store']);
@@ -94,9 +100,22 @@ Route::group(['middleware' => 'guest'], function () {
 Route::get('/admin/login', function () {
     return view('session/login-session');
 })->name('login');
-Route::get('login', [\App\Http\Controllers\CustomerController::class, 'viewLogin']);
-Route::post('login', [\App\Http\Controllers\CustomerController::class, 'login']);
-Route::get('register', [\App\Http\Controllers\CustomerController::class, 'register']);
-Route::post('register', [\App\Http\Controllers\CustomerController::class, 'store']);
-Route::get('logout', [\App\Http\Controllers\CustomerController::class, 'logout']);
+Route::get('login', [CustomerController::class, 'viewLogin']);
+Route::post('login', [CustomerController::class, 'login']);
+Route::get('register', [CustomerController::class, 'register']);
+Route::post('register', [CustomerController::class, 'store']);
+Route::get('logout', [CustomerController::class, 'logout']);
 Route::get('all-products', [ThemeController::class, 'list']);
+Route::get('products/laptop', [ThemeController::class, 'laptop']);
+Route::get('my-account', [CustomerController::class, 'show']);
+Route::post('customer/update', [CustomerController::class, 'update']);
+Route::get('my-account/orders', [CustomerController::class, 'listOrders']);
+Route::get('success', [\App\Http\Controllers\OrdersController::class, 'success']);
+Route::get('orders', [\App\Http\Controllers\OrdersController::class, 'customerOrder']);
+Route::get('admin/orders', [\App\Http\Controllers\OrdersController::class, 'index']);
+Route::get('admin/orders/{id}', [\App\Http\Controllers\OrdersController::class, 'edit']);
+Route::post('admin/order/update', [\App\Http\Controllers\OrdersController::class, 'update']);
+Route::get('admin/orders/cancel/{id}', [\App\Http\Controllers\OrdersController::class, 'cancel']);
+
+
+

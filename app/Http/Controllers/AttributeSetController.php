@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Acl;
 use App\Models\AttributeSet;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -12,6 +13,7 @@ use App\Models\EavAttribute;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use App\Models\AttributeSetAttribute;
+use Illuminate\Support\Facades\Auth;
 
 class AttributeSetController extends Controller
 {
@@ -22,6 +24,16 @@ class AttributeSetController extends Controller
      */
     public function index()
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         return view('EavAttribute.AttributeSet.index')->with('sets', AttributeSet::all());
     }
 
@@ -32,6 +44,16 @@ class AttributeSetController extends Controller
      */
     public function create()
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $allAttr = EavAttribute::all();
         return view('EavAttribute.AttributeSet.form')
             ->with(
@@ -87,6 +109,16 @@ class AttributeSetController extends Controller
      */
     public function edit($attributeSetId)
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $allAttr = EavAttribute::all();
         $set = AttributeSet::find($attributeSetId);
         $addedAttr = (new \App\Models\AttributeSetAttribute)->getBySet($set->attribute_set_name);

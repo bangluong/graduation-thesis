@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Acl;
 use App\Models\EavAttribute;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\AttributeValue;
+use Illuminate\Support\Facades\Auth;
 
 class EavAttributeController extends Controller
 {
@@ -18,6 +20,16 @@ class EavAttributeController extends Controller
      */
     public function index()
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $allAttr = EavAttribute::all();
         return view('EavAttribute.Admin.listing')->with('attributes', $allAttr);
     }
@@ -29,6 +41,16 @@ class EavAttributeController extends Controller
      */
     public function create()
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         return view('EavAttribute.Admin.form')
             ->with([
                 'label' =>'Add New Attribute',
@@ -82,6 +104,16 @@ class EavAttributeController extends Controller
      */
     public function edit(int $eavAttributeId)
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('attribute', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $attr = EavAttribute::find($eavAttributeId);
         $options = AttributeValue::getValueOptionOfAttribute($attr->attribute_code);
 

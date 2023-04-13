@@ -1,7 +1,4 @@
 @include('frontend.layouts.header')
-@include('frontend.layouts.topbar')
-@include('frontend.layouts.navbar')
-@include('frontend.layouts.navbarend')
 <div class="container-fluid pt-5">
     @if(isset($message))
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -50,7 +47,7 @@
                 <div class="text-center">
                     <p><a href="{{url('register')}}">Đăng kí</a></p>
                     <p>hoặc đăng nhập với:</p>
-                    <button type="button" class="btn btn-link btn-floating mx-1">
+                    <button type="button " class="btn btn-link btn-floating mx-1">
                         <i class="fab fa-facebook-f"></i>
                     </button>
 

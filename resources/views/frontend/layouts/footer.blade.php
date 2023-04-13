@@ -1,123 +1,248 @@
-<!-- Vendor Start -->
-<div class="container-fluid py-5">
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="owl-carousel vendor-carousel">
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-1.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-2.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-3.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-4.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-5.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-6.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-7.jpg" alt="">
-                </div>
-                <div class="vendor-item border p-4">
-                    <img src="img/vendor-8.jpg" alt="">
+<!-- Modal -->
+<div class="modal fade" id="search_bar" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 offset-lg-2 offset-md-2 offset-sm-2 col-xs-10 col-xs-offset-1">
+                        <div class="navbar-search">
+                            <form action="#" method="get" id="search-global-form" class="search-global">
+                                <input type="text" placeholder="Type to search" autocomplete="off" name="s" id="search" value="" class="search-global__input">
+                                <button class="search-global__btn"><i class="fa fa-search"></i></button>
+                                <div class="search-global__note">Begin typing your search above and press return to search.</div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Vendor End -->
-<!-- Footer Start -->
-<div class="container-fluid bg-secondary text-dark mt-5 pt-5">
-    <div class="row px-xl-5 pt-5">
-        <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-            <a href="" class="text-decoration-none">
-                <h1 class="mb-4 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border border-white px-3 mr-1">TA</span>Computer</h1>
-            </a>
-            <p>Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna ipsum dolore amet erat.</p>
-            <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
-            <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
-            <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
-        </div>
-        <div class="col-lg-8 col-md-12">
-            <div class="row">
-                <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                        <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                        <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                        <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+<!-- End Model search bar -->
+<!-- footer -->
+<footer class="footer_style_2">
+    <div class="container-fuild">
+        <div class="row">
+            <div class="map_section">
+                <div id="map"></div>
+            </div>
+            <div class="footer_blog">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="main-heading left_text">
+                            <h2>It Next Theme</h2>
+                        </div>
+                        <p>Tincidunt elit magnis nulla facilisis. Dolor sagittis maecenas. Sapien nunc amet ultrices, dolores sit ipsum velit purus aliquet, massa fringilla leo orci.</p>
+                        <ul class="social_icons">
+                            <li class="social-icon fb"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li class="social-icon tw"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li class="social-icon gp"><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="main-heading left_text">
+                            <h2>Additional links</h2>
+                        </div>
+                        <ul class="footer-menu">
+                            <li><a href="it_about.html"><i class="fa fa-angle-right"></i> About us</a></li>
+                            <li><a href="it_term_condition.html"><i class="fa fa-angle-right"></i> Terms and conditions</a></li>
+                            <li><a href="it_privacy_policy.html"><i class="fa fa-angle-right"></i> Privacy policy</a></li>
+                            <li><a href="it_news.html"><i class="fa fa-angle-right"></i> News</a></li>
+                            <li><a href="it_contact.html"><i class="fa fa-angle-right"></i> Contact us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="main-heading left_text">
+                            <h2>Services</h2>
+                        </div>
+                        <ul class="footer-menu">
+                            <li><a href="it_data_recovery.html"><i class="fa fa-angle-right"></i> Data recovery</a></li>
+                            <li><a href="it_computer_repair.html"><i class="fa fa-angle-right"></i> Computer repair</a></li>
+                            <li><a href="it_mobile_service.html"><i class="fa fa-angle-right"></i> Mobile service</a></li>
+                            <li><a href="it_network_solution.html"><i class="fa fa-angle-right"></i> Network solutions</a></li>
+                            <li><a href="it_techn_support.html"><i class="fa fa-angle-right"></i> Technical support</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="main-heading left_text">
+                            <h2>Contact us</h2>
+                        </div>
+                        <p>123 Second Street Fifth Avenue,<br>
+                            Manhattan, New York<br>
+                            <span style="font-size:18px;"><a href="tel:+9876543210">+987 654 3210</a></span></p>
+                        <div class="footer_mail-section">
+                            <form>
+                                <fieldset>
+                                    <div class="field">
+                                        <input placeholder="Email" type="text">
+                                        <button class="button_custom"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
-                    <div class="d-flex flex-column justify-content-start">
-                        <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                        <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                        <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                        <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-5">
-                    <h5 class="font-weight-bold text-dark mb-4">Newsletter</h5>
-                    <form action="">
-                        <div class="form-group">
-                            <input type="text" class="form-control border-0 py-4" placeholder="Your Name" required="required" />
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control border-0 py-4" placeholder="Your Email"
-                                   required="required" />
-                        </div>
-                        <div>
-                            <button class="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
-                        </div>
-                    </form>
-                </div>
+            </div>
+            <div class="cprt">
+                <p>ItNext © Copyrights 2019 Design by html.design</p>
             </div>
         </div>
     </div>
-    <div class="row border-top border-light mx-xl-5 py-4">
-        <div class="col-md-6 px-xl-0">
-            <p class="mb-md-0 text-center text-md-left text-dark">
-                &copy; <a class="text-dark font-weight-semi-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed
-                by
-                <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML Codex</a>
-            </p>
-        </div>
-        <div class="col-md-6 px-xl-0 text-center text-md-right">
-            <img class="img-fluid" src="img/payments.png" alt="">
-        </div>
-    </div>
-</div>
-<!-- Footer End -->
+</footer>
+<!-- end footer -->
+<!-- js section -->
+<script src="{{url('js/jquery.min.js')}}"></script>
+<script src="{{url('js/bootstrap.min.js')}}"></script>
+<!-- menu js -->
+<script src="{{url('js/menumaker.js')}}"></script>
+<!-- wow animation -->
+<script src="{{url('js/wow.js')}}"></script>
+<!-- custom js -->
+<script src="{{url('js/custom.js')}}"></script>
+<!-- revolution js files -->
+<script src="{{url('revolution/js/jquery.themepunch.tools.min.js')}}"></script>
+<script src="{{url('revolution/js/jquery.themepunch.revolution.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.actions.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.carousel.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.kenburn.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.layeranimation.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.migration.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.navigation.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.parallax.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.slideanims.min.js')}}"></script>
+<script src="{{url('revolution/js/extensions/revolution.extension.video.min.js')}}"></script>
+<!-- map js -->
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
 
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
 
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+    // This example adds a marker to indicate the position of Bondi Beach in Sydney,
+    // Australia.
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11,
+            center: {lat: 40.645037, lng: -73.880224},
+            styles: [
+                {
+                    elementType: 'geometry',
+                    stylers: [{color: '#fefefe'}]
+                },
+                {
+                    elementType: 'labels.icon',
+                    stylers: [{visibility: 'off'}]
+                },
+                {
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#616161'}]
+                },
+                {
+                    elementType: 'labels.text.stroke',
+                    stylers: [{color: '#f5f5f5'}]
+                },
+                {
+                    featureType: 'administrative.land_parcel',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#bdbdbd'}]
+                },
+                {
+                    featureType: 'poi',
+                    elementType: 'geometry',
+                    stylers: [{color: '#eeeeee'}]
+                },
+                {
+                    featureType: 'poi',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#757575'}]
+                },
+                {
+                    featureType: 'poi.park',
+                    elementType: 'geometry',
+                    stylers: [{color: '#e5e5e5'}]
+                },
+                {
+                    featureType: 'poi.park',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#9e9e9e'}]
+                },
+                {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [{color: '#eee'}]
+                },
+                {
+                    featureType: 'road.arterial',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#3d3523'}]
+                },
+                {
+                    featureType: 'road.highway',
+                    elementType: 'geometry',
+                    stylers: [{color: '#eee'}]
+                },
+                {
+                    featureType: 'road.highway',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#616161'}]
+                },
+                {
+                    featureType: 'road.local',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#9e9e9e'}]
+                },
+                {
+                    featureType: 'transit.line',
+                    elementType: 'geometry',
+                    stylers: [{color: '#e5e5e5'}]
+                },
+                {
+                    featureType: 'transit.station',
+                    elementType: 'geometry',
+                    stylers: [{color: '#000'}]
+                },
+                {
+                    featureType: 'water',
+                    elementType: 'geometry',
+                    stylers: [{color: '#c8d7d4'}]
+                },
+                {
+                    featureType: 'water',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#b1a481'}]
+                }
+            ]
+        });
 
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-<script src="{{url('lib/easing/easing.min.js')}}"></script>
-<script src="{{url('lib/owlcarousel/owl.carousel.min.js')}}"></script>
-
-<!-- Contact Javascript File -->
-<script src="{{url('mail/jqBootstrapValidation.min.js')}}"></script>
-<script src="{{url('mail/contact.js')}}"></script>
-
-<!-- Template Javascript -->
-<script src="{{url('js/main.js')}}"></script>
+        var image = 'images/it_service/location_icon_map_cont.png';
+        var beachMarker = new google.maps.Marker({
+            position: {lat: 40.645037, lng: -73.880224},
+            map: map,
+            icon: image
+        });
+    }
+</script>
+<!-- google map js -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8eaHt9Dh5H57Zh0xVTqxVdBFCvFMqFjQ&callback=initMap"></script>
+<!-- end google map js -->
 </body>
-
 </html>

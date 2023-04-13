@@ -7,6 +7,7 @@ use App\Models\CartItem;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Orders;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 
@@ -75,9 +76,8 @@ class CustomerController extends Controller
                     $currentCartItem->save();
                 }
             }
-            $customerCart->item_qty = CartItem::query()->where('cart_id', '=', $cart->id)->count();
-            $customerCart->item_count = CartItem::query()->where('cart_id', '=', $cart->id)->sum('qty');
-            $customerCart->subtotal = CartItem::query()->where('cart_id', '=', $cart->id)->sum('row_total');
+            $customerCart->item_count = CartItem::query()->where('cart_id', '=', $customerCart->id)->sum('qty');
+            $customerCart->subtotal = CartItem::query()->where('cart_id', '=', $customerCart->id)->sum('row_total');
             $customerCart->update();
             session([
                 'cart_id' => $customerCart->id,
@@ -133,12 +133,16 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|\Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show()
     {
-        //
+        $customer = session()->get('customer');
+        if ($customer == null) {
+            return redirect('login');
+        } else {
+            return view('my-account')->with('customer', $customer);
+        }
     }
 
     /**
@@ -152,16 +156,26 @@ class CustomerController extends Controller
         //
     }
 
+    public function listOrders()
+    {
+        $customer = session()->get('customer');
+        $orders = Orders::query()->where('customer_id', '=', $customer->id);
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateCustomerRequest  $request
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update(UpdateCustomerRequest $request)
     {
-        //
+        $customer = Customer::find(session()->get('customer')->id);
+        $customer->update($request->all());
+        session(['customer' => $customer]);
+        session()->save();
+        return redirect('/my-account');
     }
 
     /**

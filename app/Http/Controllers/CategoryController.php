@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Acl;
 use App\Models\Category;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -20,6 +22,16 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('category', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $allCategories = Category::where('parent_id', '=', 0)->get();
         return view('admin.category.index')
             ->with([
@@ -76,6 +88,16 @@ class CategoryController extends Controller
      */
     public function edit($categoryId)
     {
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('category', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
         $allCategories = Category::where('parent_id', '=', 0)->get();
         $category = Category::find($categoryId);
         return view('admin.category.index')

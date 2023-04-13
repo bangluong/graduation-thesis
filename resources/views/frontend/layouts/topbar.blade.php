@@ -53,7 +53,8 @@
             </a>
             <a href="{{url('checkout/cart')}}" class="btn border">
                 <i class="fas fa-shopping-cart text-primary"></i>
-                <span class="badge">{{\Illuminate\Support\Facades\Session::get('cart_count') ?? 0}}</span>
+                0
+                <span class="badge cart-count">{{\Illuminate\Support\Facades\Session::get('cart_count') ?? 0}}</span>
             </a>
         </div>
     </div>

@@ -1,7 +1,4 @@
 @include('frontend.layouts.header')
-@include('frontend.layouts.topbar')
-@include('frontend.layouts.navbar')
-@include('frontend.layouts.navbarend')
 <div class="container-fluid pt-5">
     <div class="row px-xl-5 justify-content-center">
         <div class="border-5">
