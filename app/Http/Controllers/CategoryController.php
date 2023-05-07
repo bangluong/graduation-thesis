@@ -112,12 +112,23 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateCategoryRequest  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
+     * @return Application|RedirectResponse|\Illuminate\Http\Response|Redirector
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request)
     {
-        //
+        $acl = Acl::find(Auth::user()->acl);
+        $resource = $acl->resource;
+        if ($resource!=0) {
+            $resource = explode(',', $resource);
+        } else {
+            $resource = [$resource];
+        }
+        if(!in_array('category', $resource) && !in_array(0, $resource) ) {
+            return redirect('admin/dashboard');
+        }
+        $category = Category::find($request->get('id'));
+        $category->update($request->all());
+        return redirect('admin/category/');
     }
 
     /**

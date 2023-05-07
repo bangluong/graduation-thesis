@@ -23,6 +23,19 @@
 @if($cart != null)
     <!-- end inner page banner -->
     <div class="section padding_layout_1 Shopping_cart_section">
+        @if(session('fe-success'))
+            <div class="m-3  alert alert-success alert-dismissible fade show" id="alert-success"
+                 role="alert">
+                            {{ session('fe-success') }}
+            </div>
+        @endif
+        @if(session('fe-error'))
+            <div class="m-3  alert alert-danger alert-dismissible fade show" id="alert-success"
+                 role="alert">
+                            <span class="alert-text text-white">
+                            {{ session('fe-error') }}</span>
+            </div>
+        @endif
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
@@ -67,9 +80,9 @@
                                     </div>
                                 </td>
                                 <td class="col-sm-1 col-md-1 text-center"><p
-                                        class="price_table">{{$cart_item->price}}</p></td>
+                                        class="price_table">{{number_format($cart_item->price)}}</p></td>
                                 <td class="col-sm-1 col-md-1 text-center"><p
-                                        class="price_table">{{$cart_item->row_total}}</p></td>
+                                        class="price_table">{{number_format($cart_item->row_total)}}</p></td>
                                 <td class="col-sm-1 col-md-1">
                                     <button type="button" class="bt_main"><i class="fa fa-trash"></i> Xóa</button>
                                 </td>
@@ -87,7 +100,7 @@
                             </tr>
                             <tr>
                                 <td><h4>Tổng Thành Tiền</h4></td>
-                                <td class="text-right"><h4>{{$cart->subtotal}}</h4></td>
+                                <td class="text-right"><h4>{{number_format($cart->subtotal)}}</h4></td>
                             </tr>
                             <tr>
                                 <td><h5>Phí Vận Chuyển</h5></td>
@@ -95,7 +108,7 @@
                             </tr>
                             <tr>
                                 <td><h3>Tổng</h3></td>
-                                <td class="text-right"><h4>{{$cart->subtotal}}</h4></td>
+                                <td class="text-right"><h4>{{number_format($cart->subtotal)}}</h4></td>
                             </tr>
                             <tr>
                                 <td><a href="{{url('/')}}"><button type="button" class="button">Tiếp tục mua hàng</button></a></td>

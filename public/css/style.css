@@ -60,6 +60,26 @@
 /*------------------------------------------------------------------
 		3. BASIC
 	-------------------------------------------------------------------*/
+.alert-block {
+    width: 30%;
+}
+body {
+    font-family: 'Segoe UI' !important;
+}
+.product_detail .px-xl-5 {
+    padding-top: 5px;
+}
+.alert {
+    clear: both;
+}
+.inner_banner_section {
+    margin-bottom: 15px;
+}
+.product_img img {
+    width: 270px !important;
+    height: 226px !important;
+    scale: 1;
+}
 .cart-icon {
     margin-left: 30px !important;
 }

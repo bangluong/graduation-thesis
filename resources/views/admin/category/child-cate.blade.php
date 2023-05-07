@@ -1,7 +1,7 @@
 <ul>
     @foreach($childs as $child)
     <li id="category_{{$child->id}}">
-        <a href="{{url('admin/category/edit/'.$child->id)}}">
+        <a class="" href="{{url('admin/category/edit/'.$child->id)}}">
         {{ $child->title }}
         </a>
         @if(count($child->childs($child->id)))

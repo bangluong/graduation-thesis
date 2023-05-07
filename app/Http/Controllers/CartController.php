@@ -94,50 +94,62 @@ class CartController extends Controller
         $session = session();
         $qty = $request->get('qty');
         $product = Product::find($request->get('product_id'));
-        if (!$session->get('cart_id')) {
-            $cartData = [
-                'customer_id' => $session->get('customer_id'),
-                'is_active' => 1,
-                'item_qty' => $qty,
-                'item_count' => 1,
-                'subtotal' => $product->price * $qty
+        if($product->qty < $qty) {
+            session()->flash('fe-error', 'sản phẩm này tạm hết');
+            return redirect('/product/'.$product->sku);
+        }
+        try {
+            if (!$session->get('cart_id')) {
+                $cartData = [
+                    'customer_id' => $session->get('customer') ? $session->get('customer')->id : null,
+                    'is_active' => 1,
+                    'item_qty' => $qty,
+                    'item_count' => 1,
+                    'subtotal' => $product->price * $qty
+                ];
+                $cart = Cart::create($cartData);
+            } else {
+                $cart = Cart::find($session->get('cart_id'));
+            }
+            $cartItemData = [
+                'cart_id' => $cart->id,
+                'product_id' => $product->id,
+                'row_total' => $product->price * $qty,
+                'price' => $product->price,
+                'qty' => $qty
             ];
-            $cart = Cart::create($cartData);
-        } else {
-            $cart = Cart::find($session->get('cart_id'));
+            $cartItem = CartItem::query()->where('product_id', '=', $product->id)
+                ->where('cart_id', '=', $cart->id)->first();
+            if ($cartItem) {
+                $cartItemData['qty'] = $cartItem->qty + $qty;
+                $cartItemData['row_total'] = $cartItemData['qty'] * $product->price;
+                $cartItem->update($cartItemData);
+                $message = 'Cập Nhật vào giỏ hàng thành công';
+            } else {
+                $cartItem = CartItem::create($cartItemData);
+                $message = 'Thêm vào giỏ hàng thành công';
+            }
+            $updateCart = [
+                'customer_id' => $session->get('customer') ? $session->get('customer')->id : null,
+                'is_active' => 1,
+                'item_qty' =>  CartItem::query()->where('cart_id', '=', $cart->id)->count(),
+                'item_count' => CartItem::query()->where('cart_id', '=', $cart->id)->sum('qty'),
+                'subtotal' => CartItem::query()->where('cart_id', '=', $cart->id)->sum('row_total')
+            ];
+            $cart->update($updateCart);
+            session(
+                [
+                    'cart_id'=> $cart->id,
+                    'cart_count' => $cart->item_count
+                ]
+            );
+            session()->save();
+            session()->flash('fe-success', 'Thêm vào giỏ hàng thành công');
+            return redirect('/product/'.$product->sku);
+        } catch (\Exception $exception) {
+            session()->flash('fe-error', 'thêm sản phẩm vào giỏ hàng thất bại');
+            return redirect('/product/'.$product->sku);
         }
-        $cartItemData = [
-            'cart_id' => $cart->id,
-            'product_id' => $product->id,
-            'row_total' => $product->price * $qty,
-            'price' => $product->price,
-            'qty' => $qty
-        ];
-        $cartItem = CartItem::query()->where('product_id', '=', $product->id)
-            ->where('cart_id', '=', $cart->id)->first();
-        if ($cartItem) {
-            $cartItemData['qty'] = $cartItem->qty + $qty;
-            $cartItemData['row_total'] = $cartItemData['qty'] * $product->price;
-            $cartItem->update($cartItemData);
-        } else {
-            $cartItem = CartItem::create($cartItemData);
-        }
-        $updateCart = [
-            'customer_id' => $session->get('customer_id'),
-            'is_active' => 1,
-            'item_qty' =>  CartItem::query()->where('cart_id', '=', $cart->id)->count(),
-            'item_count' => CartItem::query()->where('cart_id', '=', $cart->id)->sum('qty'),
-            'subtotal' => CartItem::query()->where('cart_id', '=', $cart->id)->sum('row_total')
-        ];
-        $cart->update($updateCart);
-        session(
-            [
-                'cart_id'=> $cart->id,
-                'cart_count' => $cart->item_count
-            ]
-        );
-        session()->save();
-        return redirect('/product/'.$product->sku);
     }
 
     /**

@@ -41,9 +41,60 @@ class ProductController extends Controller
             return redirect('admin/dashboard');
         }
         $products = Product::all();
+        $total = count($products);
+        $p = request()->get('p') ?: 1;
+        $limit = 10;
+        $start = ($p-1)*$limit;
+        $end = $start+$limit;
+        if ($total <= $limit) {
+            $end = $start + $total;
+        }
+        if (($total-$start) < $limit) {
+            $end = $total;
+        }
+        $prds = [];
+        for ($i = $start; $i<$end; $i++) {
+            $prds[] = $products[$i];
+        }
+        $pageNum = ceil($total/$limit);
+        $pages = [];
+        $path = request()->path();
+        if($p != 1) {
+            $url = url($path . ('?p=' . ($p - 1)));
+            $pages[] = [
+                'label' => 'Previous',
+                'url' => $url,
+                'class' => ''
+            ];
+        }
+        for ($i = 1; $i<=$pageNum; $i++) {
+            $url = url($path . ('?p=' . $i));
+            if ($p == $i) {
+                $pages[] = [
+                    'label' => $i,
+                    'url' => $url,
+                    'class' => 'active'
+                ];
+            } else {
+                $pages[] = [
+                    'label' => $i,
+                    'url' => $url,
+                    'class' => ''
+                ];
+            }
+        }
+        if ($p!=$pageNum) {
+            $url = url($path . ('?p=' . ($p + 1)));
+            $pages[] = [
+                'label' => 'next',
+                'url' => $url,
+                'class' => ''
+            ];
+        }
         return view('admin.product.index')->with(
             [
-                'products' => $products
+                'products' => $prds,
+                'pages' => $pages
             ]
         );
     }
@@ -123,44 +174,53 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create($request->all());
-        $attributes = $request->get('attributes');
-        $cates = $request->get('category');
-        foreach ($cates as $cate) {
-            $categoryPrd = new CategoryProducts;
-            $categoryPrd->category_id = $cate;
-            $categoryPrd->product_id = $product->id;
-            $categoryPrd->save();
-        }
-        foreach ($attributes as $key => $value) {
-            $attribute = EavAttribute::query()->where('attribute_code', '=', $key)->get()[0];
-            $optionValue = AttributeValue::query()->where('attribute_code', '=', $key)
-                ->where('value', '=', $value)->get();
-            $swatch = $value;
-            if (isset($optionValue[0])) {
-                $swatch = $optionValue[0]->swatch;
+        try {
+            $product = Product::create($request->all());
+            $attributes = $request->get('attributes');
+            $cates = $request->get('category');
+            foreach ($cates as $cate) {
+                $categoryPrd = new CategoryProducts;
+                $categoryPrd->category_id = $cate;
+                $categoryPrd->product_id = $product->id;
+                $categoryPrd->save();
             }
-            $data = [
-                'attribute_code' => $key,
-                'value' => $value,
-                'product_id' => $product->id,
-                'attribute_name' => $attribute->name,
-                'label' => $swatch
-            ];
-            ProductAttributeValue::create($data);
-        }
-        if ($request->hasfile('filenames')) {
-            foreach ($request->file('filenames') as $file) {
-                $name = time() . rand(1, 100) . '.' . $file->extension();
-                $file->move(public_path('products'), $name);
-                $fileModel = new File();
-                $fileModel->filename = $name;
-                $fileModel->type = 'product';
-                $fileModel->entity_id = $product->id;
-                $fileModel->save();
+            foreach ($attributes as $key => $value) {
+                if ($value) {
+                    $attribute = EavAttribute::query()->where('attribute_code', '=', $key)->get()[0];
+                    $optionValue = AttributeValue::query()->where('attribute_code', '=', $key)
+                        ->where('value', '=', $value)->get();
+                    $swatch = $value;
+                    if (isset($optionValue[0])) {
+                        $swatch = $optionValue[0]->swatch;
+                    }
+                    $data = [
+                        'attribute_code' => $key,
+                        'value' => $value,
+                        'product_id' => $product->id,
+                        'attribute_name' => $attribute->name,
+                        'label' => $swatch
+                    ];
+                    ProductAttributeValue::create($data);
+                }
             }
+            if ($request->hasfile('filenames')) {
+                foreach ($request->file('filenames') as $file) {
+                    $name = time() . rand(1, 100) . '.' . $file->extension();
+                    $file->move(public_path('products'), $name);
+                    $fileModel = new File();
+                    $fileModel->filename = $name;
+                    $fileModel->type = 'product';
+                    $fileModel->entity_id = $product->id;
+                    $fileModel->save();
+                }
+            }
+            session()->flash('success', 'lưu dữ liệu thành công');
+            return redirect('admin/products');
+        } catch (\Exception $e) {
+            session()->flash('error','có lỗi xảy ra. vui lòng thử lại sau');
+            return redirect('admin/products');
         }
-        return redirect('admin/products');
+
     }
 
     /**
@@ -178,7 +238,7 @@ class ProductController extends Controller
             $images[] = url('products/'.$img->filename);
         }
         if (!count($images)) {
-            $images[] = url('products/placeholder.php');
+            $images[] = url('products/placeholder.png');
         }
         $product->imgs = $images;
         $allAttribute = ProductAttributeValue::query()->where('product_id', '=', $product->id)->get();
@@ -277,6 +337,13 @@ class ProductController extends Controller
         ProductAttributeValue::query()->where('product_id', '=', $id)->delete();
         File::query()->where('entity_id', '=', $id)->delete();
         $attributes = $request->get('attributes');
+        $cates = $request->get('category');
+        foreach ($cates as $cate) {
+            $categoryPrd = new CategoryProducts;
+            $categoryPrd->category_id = $cate;
+            $categoryPrd->product_id = $product->id;
+            $categoryPrd->save();
+        }
         foreach ($attributes as $key => $value) {
             $attribute = EavAttribute::query()->where('attribute_code', '=', $key)->get()[0];
             $optionValue = AttributeValue::query()->where('attribute_code', '=', $key)
@@ -306,17 +373,19 @@ class ProductController extends Controller
                 $fileModel->save();
             }
         }
+        session()->flash('success', 'lưu dữ liệu thành công');
         return redirect('admin/products');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Product $product
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Application|RedirectResponse|\Illuminate\Http\Response|Redirector
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        Product::destroy($id);
+        return redirect('/admin/products');
     }
 }

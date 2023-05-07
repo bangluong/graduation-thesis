@@ -38,17 +38,16 @@ Route::get('/test', function () {
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/admin/', [HomeController::class, 'home']);
-    Route::get('admin/dashboard', function () {
-        return view('admin/dashboard');
-    })->name('dashboard');
+    Route::get('admin/dashboard', [HomeController::class, 'home'])->name('dashboard');
 
     Route::get('admin/user-management', function () {
         return view('admin.user.user-management');
     })->name('user-management');
 
     Route::get('/admin/logout', [SessionsController::class, 'destroy']);
-    Route::get('/admin/user-profile', [InfoUserController::class, 'create']);
-    Route::post('/admin/user-profile', [InfoUserController::class, 'store']);
+    Route::get('/admin/customer', [CustomerController::class, 'index']);
+    Route::get('/admin/customer/edit/{id}', [CustomerController::class, 'edit']);
+    Route::post('/admin/customer/update', [CustomerController::class, 'adminUpdate']);
     Route::get('/admin/login', function () {
         return view('admin/dashboard');
     })->name('sign-up');
@@ -61,14 +60,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/attribute_set/edit/{id}', [AttributeSetController::class, 'edit']);
     Route::post('admin/attribute/save', [EavAttributeController::class, 'store']);
     Route::get('admin/attribute/edit/{id}', [EavAttributeController::class, 'edit']);
+    Route::get('admin/attribute/delete/{id}', [EavAttributeController::class, 'destroy']);
     Route::post('admin/attribute/update', [EavAttributeController::class, 'update']);
 
     Route::get('admin/category', [CategoryController::class, 'index']);
     Route::get('admin/category/add/{id}', [CategoryController::class, 'addSubCategory']);
     Route::get('admin/category/edit/{id}', [CategoryController::class, 'edit']);
     Route::post('admin/category/save', [CategoryController::class, 'store']);
+    Route::post('admin/category/update', [CategoryController::class, 'update']);
     Route::get('admin/product/add', [ProductController::class, 'create']);
     Route::get('admin/product/edit/{id}', [ProductController::class, 'edit']);
+    Route::get('admin/product/delete/{id}', [ProductController::class, 'destroy']);
     Route::get('admin/products', [ProductController::class, 'index']);
     Route::post('admin/product/update', [ProductController::class, 'update']);
     Route::post('admin/product/save', [ProductController::class, 'store']);
@@ -116,6 +118,10 @@ Route::get('admin/orders', [\App\Http\Controllers\OrdersController::class, 'inde
 Route::get('admin/orders/{id}', [\App\Http\Controllers\OrdersController::class, 'edit']);
 Route::post('admin/order/update', [\App\Http\Controllers\OrdersController::class, 'update']);
 Route::get('admin/orders/cancel/{id}', [\App\Http\Controllers\OrdersController::class, 'cancel']);
+Route::get('orders/{id}', [\App\Http\Controllers\OrdersController::class, 'show']);
+Route::get('success', [\App\Http\Controllers\OrdersController::class, 'success']);
+Route::get('admin/orders/pdf/{id}', [\App\Http\Controllers\OrdersController::class, 'pdf']);
+Route::get('/category/{url}', [ThemeController::class, 'categoryProduct']);
 
 
 

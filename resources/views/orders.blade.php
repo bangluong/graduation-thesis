@@ -9,7 +9,7 @@
                     <h4>Tài Khoản Của Tôi</h4>
                     <div class="categary">
                         <ul>
-                            <li><a href="#"><i class="fa fa-angle-right"></i> Thông Tin Tài Khoản</a></li>
+                            <li><a href="{{url('my-account')}}"><i class="fa fa-angle-right"></i> Thông Tin Tài Khoản</a></li>
                             <li class="active"><a href="{{url('/orders')}}"><i class="fa fa-angle-right"></i> Đơn Hàng</a></li>
                             <li><a href="{{url('address')}}"><i class="fa fa-angle-right"></i> Địa chỉ</a></li>
                         </ul>
@@ -43,7 +43,7 @@
                             @foreach($orders as $order)
                                 <tr>
                                     <td>{{$order->id}}</td>
-                                    <td>{{$order->subtotal}}</td>
+                                    <td>{{number_format($order->subtotal)}}</td>
                                     <td>{{$order->item_count}}</td>
                                     <td>{{$status_mapper[$order->status]}}</td>
                                     <td><a href="{{url('orders/'.$order->id)}}">Xem</a></td>

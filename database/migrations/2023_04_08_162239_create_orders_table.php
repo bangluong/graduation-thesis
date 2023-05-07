@@ -22,6 +22,12 @@ return new class extends Migration
             $table->integer('subtotal')->default(0);
             $table->string('payment_method');
             $table->string('shipping_address_id');
+            $table->string('sdt');
+            $table->string('email');
+            $table->string('name');
+            $table->string('city');
+            $table->string('adr');
+            $table->string('state');
             $table->timestamps();
         });
     }

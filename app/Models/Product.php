@@ -13,6 +13,7 @@ class Product extends Model
         'sku',
         'attribute_set_id',
         'price',
+        'sale_price',
         'qty',
         'description'
     ];

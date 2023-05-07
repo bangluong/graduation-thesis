@@ -1,6 +1,19 @@
 @include('frontend.layouts.header')
-<div class="container-fluid pt-5">
-    <div class="row px-xl-5 justify-content-center">
+@if(session('fe-success'))
+    <div class="m-3  alert alert-success alert-dismissible fade show" id="alert-success"
+         role="alert">
+        {{ session('fe-success') }}
+    </div>
+@endif
+@if(session('fe-error'))
+    <div class="m-3  alert alert-danger alert-dismissible fade show" id="alert-success"
+         role="alert">
+                            <span class="alert-text text-white">
+                            {{ session('fe-error') }}</span>
+    </div>
+@endif
+<div class="container-fluid pt-5 flex justify-content-center" style="display: flex; justify-content: center">
+    <div class="row px-xl-5 justify-content-center" style="display: block !important; width: 35%">
         <div class="border-5">
         <form action="{{url('register')}}" method="post" enctype="multipart/form-data">
             @csrf
@@ -18,6 +31,11 @@
             <div class="form-outline mb-4">
                 <label class="form-label" for="form2Example1">Email: </label>
                 <input type="email" id="form2Example1" name="email" class="form-control" />
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Số Điện Thoại: </label>
+                <input type="text" id="form2Example1" name="sdt" class="form-control" />
             </div>
 
             <!-- Password input -->

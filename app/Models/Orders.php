@@ -21,6 +21,12 @@ class Orders extends Model
         'subtotal',
         'status',
         'shipping_address_id',
-        'payment_method'
+        'payment_method',
+        'sdt',
+        'email',
+        'name',
+        'city',
+        'adr',
+        'state'
     ];
 }

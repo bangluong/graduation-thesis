@@ -6,9 +6,9 @@
                 <div class="navbar_menu navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
                         <a href="{{url('/')}}" class="nav-item nav-link active">Trang Chủ</a>
-                        <a href="{{url('all-products')}}" class="nav-item nav-link">Sản Phẩm</a>
-                        <a href="{{url('products/laptop')}}" class="nav-item nav-link">Laptop</a>
-                        <a href="{{url('products/pc')}}" class="nav-item nav-link">PC</a>
+                        <a href="{{url('all-products?p=1')}}" class="nav-item nav-link">Sản Phẩm</a>
+                        <a href="{{url('products/laptop?p=1')}}" class="nav-item nav-link">Laptop</a>
+                        <a href="{{url('products/pc?p=1')}}" class="nav-item nav-link">PC</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Gaming Gear</a>
                             <div class="dropdown-menu rounded-0 m-0">

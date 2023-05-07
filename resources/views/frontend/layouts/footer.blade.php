@@ -10,10 +10,9 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-sm-8 offset-lg-2 offset-md-2 offset-sm-2 col-xs-10 col-xs-offset-1">
                         <div class="navbar-search">
-                            <form action="#" method="get" id="search-global-form" class="search-global">
-                                <input type="text" placeholder="Type to search" autocomplete="off" name="s" id="search" value="" class="search-global__input">
+                            <form action="{{url('all-products')}}" method="get" id="search-global-form" class="search-global">
+                                <input type="text" placeholder="Nhập từ khóa tìm kiếm" autocomplete="off" name="s" id="search" value="" class="search-global__input">
                                 <button class="search-global__btn"><i class="fa fa-search"></i></button>
-                                <div class="search-global__note">Begin typing your search above and press return to search.</div>
                             </form>
                         </div>
                     </div>
@@ -34,9 +33,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="main-heading left_text">
-                            <h2>It Next Theme</h2>
+                            <h2>Trần Anh Computer</h2>
                         </div>
-                        <p>Tincidunt elit magnis nulla facilisis. Dolor sagittis maecenas. Sapien nunc amet ultrices, dolores sit ipsum velit purus aliquet, massa fringilla leo orci.</p>
+                        <p>Nhà Bán lẻ máy tính, laptop, gaming gear</p>
                         <ul class="social_icons">
                             <li class="social-icon fb"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                             <li class="social-icon tw"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
@@ -45,34 +44,30 @@
                     </div>
                     <div class="col-md-6">
                         <div class="main-heading left_text">
-                            <h2>Additional links</h2>
+                            <h2>Thông tin</h2>
                         </div>
                         <ul class="footer-menu">
-                            <li><a href="it_about.html"><i class="fa fa-angle-right"></i> About us</a></li>
-                            <li><a href="it_term_condition.html"><i class="fa fa-angle-right"></i> Terms and conditions</a></li>
-                            <li><a href="it_privacy_policy.html"><i class="fa fa-angle-right"></i> Privacy policy</a></li>
-                            <li><a href="it_news.html"><i class="fa fa-angle-right"></i> News</a></li>
-                            <li><a href="it_contact.html"><i class="fa fa-angle-right"></i> Contact us</a></li>
+                            <li><a href="it_about.html"><i class="fa fa-angle-right"></i> Về chúng tôi</a></li>
+                            <li><a href="it_term_condition.html"><i class="fa fa-angle-right"></i> Điều khoản sử dụng</a></li>
+                            <li><a href="it_privacy_policy.html"><i class="fa fa-angle-right"></i> Chính sách bảo mật</a></li>
+                            <li><a href="it_contact.html"><i class="fa fa-angle-right"></i> Liên hệ</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <div class="main-heading left_text">
-                            <h2>Services</h2>
+                            <h2>Dịch Vụ</h2>
                         </div>
                         <ul class="footer-menu">
-                            <li><a href="it_data_recovery.html"><i class="fa fa-angle-right"></i> Data recovery</a></li>
-                            <li><a href="it_computer_repair.html"><i class="fa fa-angle-right"></i> Computer repair</a></li>
-                            <li><a href="it_mobile_service.html"><i class="fa fa-angle-right"></i> Mobile service</a></li>
-                            <li><a href="it_network_solution.html"><i class="fa fa-angle-right"></i> Network solutions</a></li>
-                            <li><a href="it_techn_support.html"><i class="fa fa-angle-right"></i> Technical support</a></li>
+                            <li><a href="it_data_recovery.html"><i class="fa fa-angle-right"></i> Sửa chữa máy tính, lap top</a></li>
+                            <li><a href="it_computer_repair.html"><i class="fa fa-angle-right"></i> Tư vấn buidl PC</a></li>
+                            <li><a href="it_mobile_service.html"><i class="fa fa-angle-right"></i> Customize keyboard</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <div class="main-heading left_text">
-                            <h2>Contact us</h2>
+                            <h2>Địa chỉ</h2>
                         </div>
-                        <p>123 Second Street Fifth Avenue,<br>
-                            Manhattan, New York<br>
+                        <p>48 Tố Hữu, Nam Từ Liêm, Hà Nội<br>
                             <span style="font-size:18px;"><a href="tel:+9876543210">+987 654 3210</a></span></p>
                         <div class="footer_mail-section">
                             <form>
@@ -100,21 +95,21 @@
 <!-- menu js -->
 <script src="{{url('js/menumaker.js')}}"></script>
 <!-- wow animation -->
-<script src="{{url('js/wow.js')}}"></script>
+{{--<script src="{{url('js/wow.js')}}"></script>--}}
 <!-- custom js -->
-<script src="{{url('js/custom.js')}}"></script>
+{{--<script src="{{url('js/custom.js')}}"></script>--}}
 <!-- revolution js files -->
-<script src="{{url('revolution/js/jquery.themepunch.tools.min.js')}}"></script>
-<script src="{{url('revolution/js/jquery.themepunch.revolution.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.actions.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.carousel.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.kenburn.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.layeranimation.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.migration.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.navigation.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.parallax.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.slideanims.min.js')}}"></script>
-<script src="{{url('revolution/js/extensions/revolution.extension.video.min.js')}}"></script>
+{{--<script src="{{url('revolution/js/jquery.themepunch.tools.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/jquery.themepunch.revolution.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.actions.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.carousel.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.kenburn.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.layeranimation.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.migration.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.navigation.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.parallax.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.slideanims.min.js')}}"></script>--}}
+{{--<script src="{{url('revolution/js/extensions/revolution.extension.video.min.js')}}"></script>--}}
 <!-- map js -->
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -128,121 +123,18 @@
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
                 form.addEventListener('submit', function (event) {
+                    console.log($(this));
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
                     }
-
+                    console.log(form.classList);
                     form.classList.add('was-validated')
                 }, false)
             })
     })()
-    // This example adds a marker to indicate the position of Bondi Beach in Sydney,
-    // Australia.
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 11,
-            center: {lat: 40.645037, lng: -73.880224},
-            styles: [
-                {
-                    elementType: 'geometry',
-                    stylers: [{color: '#fefefe'}]
-                },
-                {
-                    elementType: 'labels.icon',
-                    stylers: [{visibility: 'off'}]
-                },
-                {
-                    elementType: 'labels.text.fill',
-                    stylers: [{color: '#616161'}]
-                },
-                {
-                    elementType: 'labels.text.stroke',
-                    stylers: [{color: '#f5f5f5'}]
-                },
-                {
-                    featureType: 'administrative.land_parcel',
-                    elementType: 'labels.text.fill',
-                    stylers: [{color: '#bdbdbd'}]
-                },
-                {
-                    featureType: 'poi',
-                    elementType: 'geometry',
-                    stylers: [{color: '#eeeeee'}]
-                },
-                {
-                    featureType: 'poi',
-                    elementType: 'labels.text.fill',
-                    stylers: [{color: '#757575'}]
-                },
-                {
-                    featureType: 'poi.park',
-                    elementType: 'geometry',
-                    stylers: [{color: '#e5e5e5'}]
-                },
-                {
-                    featureType: 'poi.park',
-                    elementType: 'labels.text.fill',
-                    stylers: [{color: '#9e9e9e'}]
-                },
-                {
-                    featureType: 'road',
-                    elementType: 'geometry',
-                    stylers: [{color: '#eee'}]
-                },
-                {
-                    featureType: 'road.arterial',
-                    elementType: 'labels.text.fill',
-                    stylers: [{color: '#3d3523'}]
-                },
-                {
-                    featureType: 'road.highway',
-                    elementType: 'geometry',
-                    stylers: [{color: '#eee'}]
-                },
-                {
-                    featureType: 'road.highway',
-                    elementType: 'labels.text.fill',
-                    stylers: [{color: '#616161'}]
-                },
-                {
-                    featureType: 'road.local',
-                    elementType: 'labels.text.fill',
-                    stylers: [{color: '#9e9e9e'}]
-                },
-                {
-                    featureType: 'transit.line',
-                    elementType: 'geometry',
-                    stylers: [{color: '#e5e5e5'}]
-                },
-                {
-                    featureType: 'transit.station',
-                    elementType: 'geometry',
-                    stylers: [{color: '#000'}]
-                },
-                {
-                    featureType: 'water',
-                    elementType: 'geometry',
-                    stylers: [{color: '#c8d7d4'}]
-                },
-                {
-                    featureType: 'water',
-                    elementType: 'labels.text.fill',
-                    stylers: [{color: '#b1a481'}]
-                }
-            ]
-        });
-
-        var image = 'images/it_service/location_icon_map_cont.png';
-        var beachMarker = new google.maps.Marker({
-            position: {lat: 40.645037, lng: -73.880224},
-            map: map,
-            icon: image
-        });
-    }
 </script>
 <!-- google map js -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8eaHt9Dh5H57Zh0xVTqxVdBFCvFMqFjQ&callback=initMap"></script>
 <!-- end google map js -->
 </body>
 </html>

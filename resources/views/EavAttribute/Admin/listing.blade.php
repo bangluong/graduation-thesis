@@ -12,7 +12,7 @@
                                 <div>
                                     <h5 class="mb-0">All Attributes</h5>
                                 </div>
-                                <a href="{{ url('admin/attribute/add') }}" class="btn bg-gradient-primary btn-sm mb-0" type="button">+&nbsp; New Attribute</a>
+                                <a href="{{ url('admin/attribute/add') }}" class="btn bg-gradient-primary btn-sm mb-0" type="button">+&nbsp; Thêm Mới</a>
                             </div>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -24,6 +24,7 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">{{ __('Attribute code') }}</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Attribute name') }}</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{ __('Attribute type') }}</th>
+                                        <th class="text-secondary opacity-7"></th>
                                         <th class="text-secondary opacity-7"></th>
                                     </tr>
                                     </thead>
@@ -56,7 +57,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <a href="{{url('admin/attribute/edit/'.$attribute->id)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Edit
+                                                Sửa
                                             </a>
                                         </td>
                                     </tr>

@@ -34,13 +34,11 @@
     <link rel="stylesheet" type="text/css" href="{{url('revolution/css/navigation.css')}}" />
 
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
 <body id="default_theme" class="it_service">
 <!-- loader -->
-<div class="bg_load"> <img class="loader_animation" src="{{url('images/loaders/loader_1.png')}}" alt="#" /> </div>
+{{--<div class="bg_load"> <img class="loader_animation" src="{{url('images/loaders/loader_1.png')}}" alt="#" /> </div>--}}
 <!-- end loader -->
 <!-- header -->
 <header id="default_header" class="header_style_1">
@@ -94,20 +92,19 @@
                             <ul class="first-ul">
                                 <li> <a class="active" href="{{url('/')}}">Trang Chủ</a>
                                 </li>
-                                <li><a href="it_about.html">Sản Phẩm</a>
+                                <li><a href="{{url('all-products?p=1')}}">Sản Phẩm</a>
                                     <ul>
-                                        <li><a href="">LapTop</a></li>
-                                        <li> <a href="it_service.html">PC</a></li>
-                                        <li> <a href="it_blog.html">Gaming gear</a>
+                                        <li><a href="{{url('category/laptop')}}">LapTop</a></li>
+                                        <li> <a href="{{url('category/pc')}}">PC</a></li>
+                                        <li> <a href="{{url('category/gaming-gear')}}">Gaming gear</a>
                                             <ul>
-                                                <li><a href="it_blog.html">Blog List</a></li>
-                                                <li><a href="it_blog_grid.html">Blog Grid</a></li>
-                                                <li><a href="it_blog_detail.html">Blog Detail</a></li>
+                                                <li><a href="{{url('category/mouse')}}">Blog List</a></li>
+                                                <li><a href="{{url('category/keyboard')}}">Blog Grid</a></li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </li>
-                                <li> <a href="it_contact.html">Liên Hệ</a>
+                                <li> <a href="{{url('contact')}}">Liên Hệ</a>
                                 </li>
                                 @if(session()->get('customer'))
                                     <li>
@@ -128,7 +125,7 @@
                         </div>
                         <div class="search_icon">
                             <ul>
-                                <li><a href="#" data-toggle="modal" data-target="#search_bar"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                                <li><a href="" data-toggle="modal" data-target="#search_bar"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                             </ul>
                             <a href="{{url('checkout/cart')}}" class="cart-icon">
                                 <i class="fas fa-shopping-cart text-primary"></i>

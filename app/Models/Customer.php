@@ -14,6 +14,6 @@ class Customer extends Model
         'address_id',
         'dob',
         'name',
-
+        'sdt'
     ];
 }

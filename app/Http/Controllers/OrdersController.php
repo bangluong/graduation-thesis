@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderMail;
 use App\Models\Acl;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Customer;
 use App\Models\OrderItems;
 use App\Models\Orders;
 use App\Http\Requests\StoreOrdersRequest;
 use App\Http\Requests\UpdateOrdersRequest;
 use App\Models\Product;
 use App\Models\ShippingAdress;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 
 class OrdersController extends Controller
 {
@@ -48,17 +54,68 @@ class OrdersController extends Controller
         if(!in_array('orders', $resource) && !in_array(0, $resource) ) {
             return redirect('admin/dashboard');
         }
-        $orders = Orders::all();
+        $orders = Orders::query()->orderByDesc('id')->get();
+        $total = count($orders);
+        $p = request()->get('p') ?: 1;
+        $limit = 20;
+        $start = ($p-1)*$limit;
+        $end = $start+$limit;
+        if ($total <= $limit) {
+            $end = $start + $total;
+        }
+        if (($total-$start) < $limit) {
+            $end = $total;
+        }
+        $ords = [];
+        for ($i = $start; $i<$end; $i++) {
+            $ords[] = $orders[$i];
+        }
+        $pageNum = ceil($total/$limit);
+        $pages = [];
+        $path = request()->path();
+        if($p != 1) {
+            $url = url($path . ('?p=' . ($p - 1)));
+            $pages[] = [
+                'label' => 'Previous',
+                'url' => $url,
+                'class' => ''
+            ];
+        }
+        for ($i = 1; $i<=$pageNum; $i++) {
+            $url = url($path . ('?p=' . $i));
+            if ($p == $i) {
+                $pages[] = [
+                    'label' => $i,
+                    'url' => $url,
+                    'class' => 'active'
+                ];
+            } else {
+                $pages[] = [
+                    'label' => $i,
+                    'url' => $url,
+                    'class' => ''
+                ];
+            }
+        }
+        if ($p!=$pageNum) {
+            $url = url($path . ('?p=' . ($p + 1)));
+            $pages[] = [
+                'label' => 'next',
+                'url' => $url,
+                'class' => ''
+            ];
+        }
         return view('admin.order.index')->with(
             [
-                'orders' => $orders,
+                'orders' => $ords,
                 'status_mapper' =>[
                     0 => 'chờ tiếp nhận',
                     1 => 'đang xử lý',
                     2 => 'đang giao',
                     3 => 'hoàn thành',
                     4 => 'đã hủy'
-                ]
+                ],
+                'pages' => $pages
             ]
         );
     }
@@ -77,11 +134,12 @@ class OrdersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\StoreOrdersRequest $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function store(StoreOrdersRequest $request)
     {
         $addr = ShippingAdress::create($request->get('address'));
+        $email = $request->get('email');
         $cart = Cart::find(session()->get('cart_id'));
         $orderData = [
             'customer_id' => $cart->customer_id,
@@ -90,7 +148,13 @@ class OrdersController extends Controller
             'subtotal' => $cart->subtotal,
             'status' => 0,
             'shipping_address_id' => $addr->id,
-            'payment_method' => $request->get('payment')
+            'payment_method' => $request->get('payment'),
+            'sdt' => $request->get('sdt'),
+            'email' => $request->get('email'),
+            'name' => $request->get('name'),
+            'adr' => $addr->address,
+            'state' => $addr->district,
+            'city' => $addr->city
         ];
         $order = Orders::create($orderData);
         $cart->is_active = 0;
@@ -111,12 +175,13 @@ class OrdersController extends Controller
             $product->qty = $product->qty - $cartItem->qty;
             $product->save();
         }
-        if ($order->payment_method == 'vnpay') {
-            $this->vnpay($order);
+        Mail::to($email)->send(new OrderMail($order));
+        if ($order->payment_method == 'cod') {
+            return view('success')->with([
+                'order' => $order
+            ]);
         }
-        return view('success')->with([
-            'order' => $order
-        ]);
+        return $this->vnpay($order);
     }
     public function update(StoreOrdersRequest $request)
     {
@@ -131,6 +196,38 @@ class OrdersController extends Controller
         $order->status = 4;
         $order->save();
         return redirect('admin/orders/'.$order->id);
+    }
+    public function pdf($id)
+    {
+        $order = Orders::find($id);
+        $orderItems = OrderItems::query()->where('order_id', '=', $id)->get();
+        foreach ($orderItems as &$item) {
+            $product = Product::find($item->product_id);
+            $item->old_price = $product->price;
+            $item->name = $product->name;
+        }
+        $customerId = $order->customer_id;
+        if ($customerId) {
+            $customer = Customer::find($customerId);
+        } else {
+            $customer = null;
+        }
+        $data = [
+            'order' => $order,
+            'orderItems' => $orderItems,
+            'customer' => $customer
+            ];
+        $pdf = \Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::loadView('billing', $data);
+        return $pdf->stream('billing.pdf');
+    }
+
+    public function success()
+    {
+        $id = request()->get('vnp_TxnRef');
+        $order = Orders::find($id);
+        return view('success')->with([
+            'order' => $order
+        ]);
     }
 
     public function vnpay($order)
@@ -170,7 +267,7 @@ class OrdersController extends Controller
             "vnp_TxnRef" => $vnp_TxnRef,
         );
 
-        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+        if ($vnp_BankCode != "") {
             $inputData['vnp_BankCode'] = $vnp_BankCode;
         }
         if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
@@ -194,23 +291,46 @@ class OrdersController extends Controller
         $returnData = array('code' => '00'
         , 'message' => 'success'
         , 'data' => $vnp_Url);
-        if (isset($vnp_HashSecret)) {
-            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
-            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-            header('Location: ' . $vnp_Url);
-        }
-        return view('success')->with('order', $order);
+        $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
+        $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        return Redirect::intended($vnp_Url);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Orders $orders
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show(Orders $orders)
+    public function show($id)
     {
-        //
+        $order = Orders::find($id);
+        $orderItems = OrderItems::query()->where('order_id', '=', $id)->get();
+        foreach ($orderItems as &$item) {
+            $product = Product::find($item->product_id);
+            $item->old_price = $product->price;
+            $item->name = $product->name;
+        }
+        $customerId = $order->customer_id;
+        if ($customerId) {
+            $customer = Customer::find($customerId);
+        } else {
+            $customer = null;
+        }
+        return view('order-detail')->with(
+            [
+                'order' => $order,
+                'status_mapper' =>[
+                    0 => 'chờ tiếp nhận',
+                    1 => 'đang xử lý',
+                    2 => 'đang giao',
+                    3 => 'hoàn thành',
+                    4 => 'đã hủy'
+                ],
+                'items' => $orderItems,
+                'customer' => $customer
+            ]
+        );
     }
 
     /**
@@ -238,6 +358,12 @@ class OrdersController extends Controller
             $item->old_price = $product->price;
             $item->name = $product->name;
         }
+        $customerId = $order->customer_id;
+        if ($customerId) {
+            $customer = Customer::find($customerId);
+        } else {
+            $customer = null;
+        }
         return view('admin.order.edit')->with(
             [
                 'order' => $order,
@@ -248,7 +374,8 @@ class OrdersController extends Controller
                     3 => 'hoàn thành',
                     4 => 'đã hủy'
                 ],
-                'items' => $orderItems
+                'items' => $orderItems,
+                'customer' => $customer
             ]
         );
     }

@@ -17,7 +17,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="{{'assets/img/apple-icon.png'}}">
   <link rel="icon" type="image/png" href="{{url('assets/img/favicon.png')}}">
   <title>
-    Soft UI Dashboard by Creative Tim
+    TA Computer
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -39,15 +39,6 @@
   @guest
     @yield('guest')
   @endguest
-
-  @if(session()->has('success'))
-    <div x-data="{ show: true}"
-        x-init="setTimeout(() => show = false, 4000)"
-        x-show="show"
-        class="position-fixed bg-success rounded right-3 text-sm py-2 px-4">
-      <p class="m-0">{{ session('success')}}</p>
-    </div>
-  @endif
     <!--   Core JS Files   -->
   <script src="{{url('assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{url('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>

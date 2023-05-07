@@ -95,6 +95,7 @@ class CartItemController extends Controller
             ]
         );
         session()->save();
+        session()->flash('fe-success', 'cập nhật giỏ hàng thành công');
         return redirect('checkout/cart');
     }
 
@@ -119,6 +120,7 @@ class CartItemController extends Controller
             ]
         );
         session()->save();
+        session()->flash('fe-success', 'cập nhật giỏ hàng thành công');
         return redirect('checkout/cart');
     }
 }

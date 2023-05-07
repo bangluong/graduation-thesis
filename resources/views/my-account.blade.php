@@ -9,7 +9,7 @@
                     <h4>Tài Khoản Của Tôi</h4>
                     <div class="categary">
                         <ul>
-                            <li class="active"><a href="#"><i class="fa fa-angle-right"></i> Thông Tin Tài Khoản</a></li>
+                            <li class="active"><a href="{{url('/my-account')}}"><i class="fa fa-angle-right"></i> Thông Tin Tài Khoản</a></li>
                             <li><a href="{{url('/orders')}}"><i class="fa fa-angle-right"></i> Đơn Hàng</a></li>
                             <li><a href="{{url('address')}}"><i class="fa fa-angle-right"></i> Địa chỉ</a></li>
                         </ul>
@@ -47,6 +47,13 @@
                                         Trường Này Không được Để trống
                                     </div>
                                 </div>
+                            <div class="mb-3  form-group">
+                                <label>Số Điện Thoại</label>
+                                <input class="form-control required" value="{{$customer->sdt}}" name="sdt" type="text" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Trường Này Không được Để trống
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary">Lưu</button>
                         </form>
                     </div>

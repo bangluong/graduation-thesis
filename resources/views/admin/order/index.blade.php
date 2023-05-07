@@ -38,16 +38,16 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0">{{$order->subtotal}}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{number_format($order->subtotal)}} vnđ</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <p class="text-xs font-weight-bold mb-0">{{$order->item_count}}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0">{{$status_mapper[$order->status]}}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{$order->payment_method}}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-xs font-weight-bold mb-0">{{$order->payment_method}}</p>
+                                                <p class="text-xs font-weight-bold mb-0">{{$status_mapper[$order->status]}}</p>
                                             </td>
                                             <td class="align-middle">
                                                 <a href="{{url('admin/orders/'.$order->id)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
@@ -58,6 +58,30 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        @foreach($pages as $page)
+                                            @if($page['label'] == 'Previous')
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{$page['url']}}" aria-label="Previous">
+                                                        <i class="fa fa-angle-left"></i>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                </li>
+                                            @elseif($page['label'] != 'Next')
+                                                <li class="page-item {{$page['class']}}"><a class="page-link" href="{{$page['url']}}">{{$page['label']}}</a></li>
+                                            @endif
+                                            @if ($page['label'] == 'Next')
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{$page['url']}}" aria-label="Previous">
+                                                        <i class="fa fa-angle-right"></i>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>

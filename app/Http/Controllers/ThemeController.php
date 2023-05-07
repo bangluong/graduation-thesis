@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AttributeValue;
 use App\Models\Category;
+use App\Models\CategoryProducts;
+use App\Models\EavAttribute;
 use App\Models\File;
 use App\Models\Product;
+use App\Models\ProductAttributeValue;
 use App\Models\Theme;
 use App\Http\Requests\StoreThemeRequest;
 use App\Http\Requests\UpdateThemeRequest;
@@ -21,37 +25,287 @@ class ThemeController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::query()->where('attribute_set_id', '=', 10)->limit(8)->get();
         foreach ($products as &$product) {
             $imgs = File::query()->where('entity_id', '=', $product->id)->get();
             if (count($imgs)) {
                 $product->img = url('/products/'.$imgs[0]->filename);
             } else {
                 $product->img = url('/products/placeholder.png');
+            }
+        }
+        $productsPC = Product::query()->where('attribute_set_id', '=', 11)->limit(8)->get();
+        foreach ($productsPC as &$productPC) {
+            $imgs = File::query()->where('entity_id', '=', $productPC->id)->get();
+            if (count($imgs)) {
+                $productPC->img = url('/products/'.$imgs[0]->filename);
+            } else {
+                $productPC->img = url('/products/placeholder.png');
             }
         }
         return view('index')->with(
             [
-                'products' => $products
+                'products' => $products,
+                'pc' => $productsPC
             ]
         );
     }
-    public function list()
+
+    public function categoryProduct($url)
     {
-        $products = Product::all();
-        foreach ($products as &$product) {
-            $imgs = File::query()->where('entity_id', '=', $product->id)->get();
-            if (count($imgs)) {
-                $product->img = url('/products/'.$imgs[0]->filename);
+        $category = Category::query()->where('url', '=', $url)->get()[0];
+        $category_products = CategoryProducts::query()->where('category_id', '=', $category->id)->get();
+        $product_ids = [];
+        foreach ($category_products as $a) {
+            $product_ids[] = $a->product_id;
+        }
+        $cate = Category::where('parent_id', '=', 1)->get();
+        $limit = 8;
+        $brands = AttributeValue::query()->where('attribute_code', '=', 'brand')->get();
+        $p = request()->get('p') ?: 1;
+        $s = request()->get('s');
+        $sort = request()->get('sort') ?? 'id';
+        $filter = request()->get('filter');
+        $brand = request()->get('brand');
+        if ($brand) {
+            $prds = ProductAttributeValue::query()->where('value', '=', $brand)
+                ->get('product_id');
+            $productIds = [];
+            foreach ($prds as $prd) {
+                $productIds[] = $prd->product_id;
+            }
+            $products = Product::query()->whereIn('id',  $productIds)->get();
+        } else {
+            if ($filter) {
+                if ($filter == 'price1') {
+                    $products = Product::query()->where('price', '<', '10000000')->orderBy($sort, 'asc')->get();
+                    if ($s) {
+                        $products = Product::query()->where('price', '<', '10000000')->where('name', 'like', "%{$s}%")->orderBy($sort, 'asc')->get();
+                    }
+                } else if ($filter == 'price2') {
+                    $products = Product::query()->where('price', '>=', '10000000')
+                        ->where('price', '<=', '20000000')->orderBy($sort, 'asc')->get();
+                    if ($s) {
+                        $products = Product::query()->where('price', '>=', '10000000')
+                            ->where('price', '<=', '20000000')
+                            ->where('name', 'like', "%{$s}%")->orderBy($sort, 'asc')->get();
+                    }
+                } else if ($filter == 'price3') {
+                    $products = Product::query()->where('price', '>', '20000000')->orderBy($sort, 'asc')->get();
+                    if ($s) {
+                        $products = Product::query()->where('price', '>', '20000000')->where('name', 'like', "%{$s}%")->orderBy($sort, 'asc')->get();
+                    }
+                }
             } else {
-                $product->img = url('/products/placeholder.png');
+                if (count($product_ids)) {
+                    $products = Product::query()->whereIn('id', $product_ids)->orderBy($sort, 'asc')->get();
+                } else {
+                    $products = Product::query()->orderBy($sort, 'asc')->get();
+                }
+                if ($s) {
+                    $products = Product::query()->where('name', 'like', "%{$s}%")->orderBy($sort, 'asc')->get();
+                }
             }
         }
-        return view('product-list')->with(
-            [
-                'products' => $products
-            ]
-        );
+        $total = count($products);
+        if ($total == 0) {
+            return view('product-list')->with([
+                'products' => null,
+                'cates' => $cate,
+                'brands' => $brands
+            ]);
+        }
+        $pageNum = ceil($total/$limit);
+        $pages = [];
+        $path = request()->path();
+        if($p != 1) {
+            $url = url($path . ('?p=' . ($p - 1)));
+            if ($s) {
+                $url = url($path . ('?p=' . ($p - 1))). ('&s='.$s);
+            }
+            $pages[] = [
+                'label' => '<',
+                'url' => $url,
+                'class' => ''
+            ];
+        }
+        for ($i = 1; $i<=$pageNum; $i++) {
+            $url = url($path . ('?p=' . $i));
+            if ($s) {
+                $url = url($path . ('?p=' . $i)). ('&s='.$s);
+            }
+            if ($p == $i) {
+                $pages[] = [
+                    'label' => $i,
+                    'url' => $url,
+                    'class' => 'active'
+                ];
+            } else {
+                $pages[] = [
+                    'label' => $i,
+                    'url' => $url,
+                    'class' => ''
+                ];
+            }
+        }
+        if ($p!=$pageNum) {
+            $url = url($path . ('?p=' . ($p + 1)));
+            if ($s) {
+                $url = url($path . ('?p=' . ($p + 1))). ('&s='.$s);
+            }
+            $pages[] = [
+                'label' => '>',
+                'url' => $url,
+                'class' => ''
+            ];
+        }
+        $start = ($p-1)*$limit;
+        $end = $start+$limit;
+        if ($total <= $limit) {
+            $end = $start + $total;
+        }
+        if (($total-$start) < $limit) {
+            $end = $total;
+        }
+        $prds = [];
+        for ($i = $start; $i<$end; $i++) {
+            $imgs = File::query()->where('entity_id', '=', $products[$i]->id)->get();
+            if (count($imgs)) {
+                $products[$i]->img = url('/products/'.$imgs[0]->filename);
+            } else {
+                $products[$i]->img = url('/products/placeholder.png');
+            }
+            $prds[] = $products[$i];
+        }
+        return view('product-list')->with([
+            'products' => $prds,
+            'pages' =>$pages,
+            'cates' => $cate,
+            'brands' => $brands
+        ]);
+    }
+    public function list()
+    {
+        $cate = Category::where('parent_id', '=', 1)->get();
+        $limit = 8;
+        $brands = AttributeValue::query()->where('attribute_code', '=', 'brand')->get();
+        $p = request()->get('p') ?: 1;
+        $s = request()->get('s');
+        $sort = request()->get('sort') ?? 'id';
+        $filter = request()->get('filter');
+        $brand = request()->get('brand');
+        if ($brand) {
+            $prds = ProductAttributeValue::query()->where('value', '=', $brand)
+                ->get('product_id');
+            $productIds = [];
+            foreach ($prds as $prd) {
+                $productIds[] = $prd->product_id;
+            }
+            $products = Product::query()->whereIn('id', $productIds)->get();
+        } else {
+            if ($filter) {
+                if ($filter == 'price1') {
+                    $products = Product::query()->where('price', '<', '10000000')->orderBy($sort, 'asc')->get();
+                    if ($s) {
+                        $products = Product::query()->where('price', '<', '10000000')->where('name', 'like', "%{$s}%")->orderBy($sort, 'asc')->get();
+                    }
+                } else if ($filter == 'price2') {
+                    $products = Product::query()->where('price', '>=', '10000000')
+                        ->where('price', '<=', '20000000')->orderBy($sort, 'asc')->get();
+                    if ($s) {
+                        $products = Product::query()->where('price', '>=', '10000000')
+                            ->where('price', '<=', '20000000')
+                            ->where('name', 'like', "%{$s}%")->orderBy($sort, 'asc')->get();
+                    }
+                } else if ($filter == 'price3') {
+                    $products = Product::query()->where('price', '>', '20000000')->orderBy($sort, 'asc')->get();
+                    if ($s) {
+                        $products = Product::query()->where('price', '>', '20000000')->where('name', 'like', "%{$s}%")->orderBy($sort, 'asc')->get();
+                    }
+                }
+            } else {
+                $products = Product::query()->orderBy($sort, 'asc')->get();
+                if ($s) {
+                    $products = Product::query()->where('name', 'like', "%{$s}%")->orderBy($sort, 'asc')->get();
+                }
+            }
+        }
+        $total = count($products);
+        if ($total == 0) {
+            return view('product-list')->with([
+                'products' => null,
+                'cates' => $cate,
+                'brands' => $brands
+            ]);
+        }
+        $pageNum = ceil($total/$limit);
+        $pages = [];
+        $path = request()->path();
+        if($p != 1) {
+            $url = url($path . ('?p=' . ($p - 1)));
+            if ($s) {
+                $url = url($path . ('?p=' . ($p - 1))). ('&s='.$s);
+            }
+            $pages[] = [
+                'label' => '<',
+                'url' => $url,
+                'class' => ''
+            ];
+        }
+        for ($i = 1; $i<=$pageNum; $i++) {
+            $url = url($path . ('?p=' . $i));
+            if ($s) {
+                $url = url($path . ('?p=' . $i)). ('&s='.$s);
+            }
+            if ($p == $i) {
+                $pages[] = [
+                    'label' => $i,
+                    'url' => $url,
+                    'class' => 'active'
+                ];
+            } else {
+                $pages[] = [
+                    'label' => $i,
+                    'url' => $url,
+                    'class' => ''
+                ];
+            }
+        }
+        if ($p!=$pageNum) {
+            $url = url($path . ('?p=' . ($p + 1)));
+            if ($s) {
+                $url = url($path . ('?p=' . ($p + 1))). ('&s='.$s);
+            }
+            $pages[] = [
+                'label' => '>',
+                'url' => $url,
+                'class' => ''
+            ];
+        }
+        $start = ($p-1)*$limit;
+        $end = $start+$limit;
+        if ($total <= $limit) {
+            $end = $start + $total;
+        }
+        if (($total-$start) < $limit) {
+            $end = $total;
+        }
+        $prds = [];
+        for ($i = $start; $i<$end; $i++) {
+            $imgs = File::query()->where('entity_id', '=', $products[$i]->id)->get();
+            if (count($imgs)) {
+                $products[$i]->img = url('/products/'.$imgs[0]->filename);
+            } else {
+                $products[$i]->img = url('/products/placeholder.png');
+            }
+            $prds[] = $products[$i];
+        }
+        return view('product-list')->with([
+            'products' => $prds,
+            'pages' =>$pages,
+            'cates' => $cate,
+            'brands' => $brands
+        ]);
     }
 
     /**

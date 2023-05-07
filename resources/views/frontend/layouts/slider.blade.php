@@ -62,7 +62,7 @@
                                  data-splitout="none"
                                  data-responsive_offset="on"
                                  data-elementdelay="0.05"
-                                 style="z-index: 6; white-space: nowrap;">Computer Services </div>
+                                 style="z-index: 6; white-space: nowrap;">TA Computer</div>
                             <!-- LAYER NR. 3 -->
                             <div class="tp-caption NotGeneric-SubTitle   tp-resizeme rs-parallaxlevel-0"
                                  id="slide-18-layer-412"
@@ -80,7 +80,7 @@
                                  data-splitin="none"
                                  data-splitout="none"
                                  data-responsive_offset="on"
-                                 style="z-index: 7; white-space: nowrap;">Available On It.Next </div>
+                                 style="z-index: 7; white-space: nowrap;">chuyên cung cấp các sản phẩm về máy tính</div>
                         </li>
                         <li data-index="rs-181" data-transition="zoomin" data-slotamount="7"  data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000"  data-thumb="images/it_service/slide2.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Easy To Use & Customize" data-description="">
                             <!-- MAIN IMAGE -->
@@ -138,7 +138,7 @@
                                  data-splitout="none"
                                  data-responsive_offset="on"
                                  data-elementdelay="0.05"
-                                 style="z-index: 6; white-space: nowrap;">Fast & Affordable </div>
+                                 style="z-index: 6; white-space: nowrap;">Uy Tín</div>
                             <!-- LAYER NR. 3 -->
                             <div class="tp-caption NotGeneric-SubTitle   tp-resizeme rs-parallaxlevel-0"
                                  id="slide-18-layer-41"
@@ -156,7 +156,7 @@
                                  data-splitin="none"
                                  data-splitout="none"
                                  data-responsive_offset="on"
-                                 style="z-index: 7; white-space: nowrap;">Available On It.Next </div>
+                                 style="z-index: 7; white-space: nowrap;">chuyên cung cấp các sản phẩm về máy tính</div>
                         </li>
                         <li data-index="rs-18" data-transition="zoomin" data-slotamount="7"  data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="2000"  data-thumb="images/it_service/slide3.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Perfectly Responsive" data-description="">
                             <!-- MAIN IMAGE -->
@@ -214,7 +214,7 @@
                                  data-splitout="none"
                                  data-responsive_offset="on"
                                  data-elementdelay="0.05"
-                                 style="z-index: 6; white-space: nowrap;">We Will Fix It </div>
+                                 style="z-index: 6; white-space: nowrap;">Chất Lượng</div>
                             <!-- LAYER NR. 3 -->
                             <div class="tp-caption NotGeneric-SubTitle   tp-resizeme rs-parallaxlevel-0"
                                  id="slide-18-layer-4"
@@ -232,7 +232,7 @@
                                  data-splitin="none"
                                  data-splitout="none"
                                  data-responsive_offset="on"
-                                 style="z-index: 7; white-space: nowrap;">Available On It.Next </div>
+                                 style="z-index: 7; white-space: nowrap;">TA computer</div>
                         </li>
                     </ul>
                     <div class="tp-static-layers"></div>

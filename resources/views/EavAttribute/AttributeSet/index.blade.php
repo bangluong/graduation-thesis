@@ -36,7 +36,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <a href="{{url('admin/attribute_set/edit/'.$set->id)}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Edit
+                                                Sửa
                                             </a>
                                         </td>
                                     </tr>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('dob')->nullable(true);
             $table->string('name')->nullable(true);
             $table->string('email');
+            $table->string('sdt');
             $table->string('pwd');
             $table->timestamps();
         });

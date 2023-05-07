@@ -71,14 +71,19 @@ class EavAttributeController extends Controller
         $values = $request->get('values');
         $swatches = $request->get('swatches');
         EavAttribute::create($request->all());
-        foreach ($values as $index => $value) {
-            if ($value) {
-                $data = [
-                    'attribute_code' => $request->get('attribute_code'),
-                    'value' => $value,
-                    'swatch' => $swatches[$index]
-                ];
-                AttributeValue::create($data);
+        if ($values === null) {
+            return redirect('admin/attributes');
+        }
+        if (count($values)) {
+            foreach ($values as $index => $value) {
+                if ($value) {
+                    $data = [
+                        'attribute_code' => $request->get('attribute_code'),
+                        'value' => $value,
+                        'swatch' => $swatches[$index]
+                    ];
+                    AttributeValue::create($data);
+                }
             }
         }
         return redirect('admin/attributes');
@@ -161,11 +166,12 @@ class EavAttributeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\EavAttribute $eavAttribute
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Application|RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function destroy(EavAttribute $eavAttribute)
+    public function destroy($id)
     {
-        //
+        EavAttribute::destroy($id);
+        return redirect('admin/attributes');
     }
 }
